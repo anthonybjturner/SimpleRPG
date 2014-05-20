@@ -9,6 +9,8 @@
 #define GAME_H_
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Window/Mouse.hpp>
+
 using namespace sf;
 
 class Game {
@@ -25,7 +27,8 @@ public:
 	bool finished;
 
 private:
-	Player player;
+	Player* player;
+	VideoMode vm;
 	RenderWindow* window;
 
 	void handleEvents();
