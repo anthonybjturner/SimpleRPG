@@ -5,37 +5,39 @@
  *      Author: Anthony
  */
 
-#include "Player.h"
 #include "Game.h"
 #include <windows.h>
 #include <iostream>
 
 using namespace std;
+static const char* GAME_TITLE = "Simple RPG";
 
 Game::Game() {
 
-	finished = false;
-	vm.height = 768;
-	vm.width = 1024;
+	player = new Player();
+	VideoMode vm(1024,768);
 	window = new RenderWindow(vm, GAME_TITLE);
 	window->setActive(false);
-	player = new Player();
-	//sf::Thread thread(&renderingThread, &window);
-	//   thread.launch();
+
 }
 
 Game::~Game() {
 
 	delete player;
+	delete window;
 }
 
 void Game::start() {
 
+
+	bool finished = false;
+
 	while (!finished) {
+
 
 		update();
 		render();
-		handleEvents();
+		finished = handleEvents();
 		sleep(15);
 
 	}
@@ -44,30 +46,29 @@ void Game::start() {
 
 void Game::update() {
 
-	std::cout << "Updating" << endl;
+
 }
 
 void Game::render() {
 
 	if (window->isOpen()) {
 		window->clear();
-		sf::RectangleShape bg(sf::Vector2f(1024, 768));
-		bg.setFillColor(sf::Color(100, 250, 50));
 
-		window->draw(bg);
-		window->draw(player->getImage());
+		drawBackground();
+
+		player->draw(window);
 		window->display();
 	}
 
 }
 
-void Game::handleEvents() {
+bool Game::handleEvents() {
 
 	sf::Event event;
 	while (window->pollEvent(event)) {
 		if (event.type == sf::Event::Closed) {
 			window->close();
-			finished = true;
+			return true;
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
@@ -91,6 +92,8 @@ void Game::handleEvents() {
 		}
 	}
 
+	return false;
+
 }
 
 void Game::sleep(int seconds) {
@@ -99,10 +102,10 @@ void Game::sleep(int seconds) {
 
 }
 
-int main() {
+void Game::drawBackground(){
 
-	Game game;
-	game.start();
-	return 0;
+	sf::RectangleShape bg(sf::Vector2f(1024, 768));
+	bg.setFillColor(sf::Color(100, 250, 50));
+	window->draw(bg);
+
 }
-

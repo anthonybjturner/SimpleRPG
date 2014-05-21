@@ -20,8 +20,11 @@ public:
 	void moveLeft(float);
 	void moveUp(float);
 	void moveDown(float);
+	void draw(sf::RenderWindow*);
 private:
-	sf::Sprite Sprite;
+	sf::Sprite* sprite;
+	sf::Texture texture;
+	void loadTexture(const std::basic_string<char> file);
 
 
 };

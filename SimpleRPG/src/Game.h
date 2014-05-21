@@ -10,6 +10,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Mouse.hpp>
+#include "Player.h"
 
 using namespace sf;
 
@@ -21,19 +22,11 @@ public:
 	void update();
 	void render();
 	void sleep(int);
-
-	const char* GAME_TITLE = "Simple RPG";
-	///sf::RenderWindow window;
-	bool finished;
-
 private:
 	Player* player;
-	VideoMode vm;
 	RenderWindow* window;
-
-	void handleEvents();
-	void renderingThread(sf::RenderWindow*);
-
+	bool handleEvents();
+	void drawBackground();
 };
 
 #endif /* GAME_H_ */
