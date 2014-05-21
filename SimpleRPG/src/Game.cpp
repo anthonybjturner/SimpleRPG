@@ -17,14 +17,23 @@ Game::Game() {
 	player = new Player();
 	VideoMode vm(1024,768);
 	window = new RenderWindow(vm, GAME_TITLE);
-	window->setActive(false);
+	window->setActive(true);
 
+	images = new ImageLoader();
+	loadImages();
 }
 
 Game::~Game() {
 
 	delete player;
 	delete window;
+}
+
+void Game::loadImages(){
+
+
+
+
 }
 
 void Game::start() {

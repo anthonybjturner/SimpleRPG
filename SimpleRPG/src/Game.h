@@ -11,6 +11,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include "Player.h"
+#include "ImageLoader.h"
 
 using namespace sf;
 
@@ -25,8 +26,11 @@ public:
 private:
 	Player* player;
 	RenderWindow* window;
+	ImageLoader* images;
+
 	bool handleEvents();
 	void drawBackground();
+	void loadImages();
 };
 
 #endif /* GAME_H_ */

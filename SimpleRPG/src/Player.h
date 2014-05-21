@@ -8,9 +8,10 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
 #include "Location.h"
-#include <SFML/Graphics.hpp>
+#include "ImageLoader.h"
+#include "SFML/Graphics.hpp"
 
-class Player {
+class Player :sf::Sprite{
 public:
 	Player();
 	virtual ~Player();
@@ -22,10 +23,9 @@ public:
 	void moveDown(float);
 	void draw(sf::RenderWindow*);
 private:
-	sf::Sprite* sprite;
 	sf::Texture texture;
-	void loadTexture(const std::basic_string<char> file);
-
+	void loadTexture(int index);
+	ImageLoader* images;
 
 };
 

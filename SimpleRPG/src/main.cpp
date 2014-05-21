@@ -10,12 +10,11 @@
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR pCmdLine, int nCmdShow){
 
-	Game* engine;
+	Game* game;
 	try{
 
-		MessageBoxA(NULL, "Welcome to the game. Click to play", "SimpleRPG",  MB_OK | 0);
-		 engine = new Game();
-		engine->start();
+		game = new Game();
+		game->start();
 
 	}catch (const char* e){
 
@@ -23,7 +22,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR pCmdLine, int nCmdShow)
 
 	}
 
-	delete engine;
+	delete game;
 	return 0;
 
 }
