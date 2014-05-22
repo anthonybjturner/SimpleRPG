@@ -38,39 +38,30 @@ void Player::switchDirection(int index) {
 
 
 		sf::IntRect rect;
+		rect.height = 50;
+		rect.width = 36;
+		rect.left = 0;
 
 		switch (index) {
 
 		case DOWN_FACING:
 
-			rect.left = 0;
-			rect.width = 36;
 			rect.top = 0;
-			rect.height = 50;
 			break;
 
 		case LEFT_FACING:
 
-			rect.left = 0;
-			rect.width = 36;
 			rect.top = 50 +5;
-			rect.height = 50;
 			break;
 
 		case RIGHT_FACING:
 
-			rect.left = 0;
-			rect.width = 36;
 			rect.top = 100 +9;
-			rect.height = 50;
 			break;
 
 		case UP_FACING:
 
-			rect.left = 0;
-			rect.width = 36;
 			rect.top = 150 +11;
-			rect.height = 50;
 			break;
 
 		}
