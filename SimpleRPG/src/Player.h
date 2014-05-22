@@ -30,11 +30,11 @@ private:
 
 	//member variables
 	sf::Texture texture;
-	ImageLoader* p_player_image_manager;
+	ImageLoader player_image_manager;
 
 	//functions
-	void loadTexture(int index);
-	void loadImages();
+	void switchDirection(int index);
+	bool loadImage();
 
 };
 

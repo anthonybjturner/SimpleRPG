@@ -14,18 +14,14 @@ static const char* GAME_TITLE = "Simple RPG";
 
 Game::Game() {
 
-	player = new Player();
-	VideoMode vm(1024, 768);
-	window = new RenderWindow(vm, GAME_TITLE);
+	window = new RenderWindow(VideoMode(1024, 768), GAME_TITLE);
 	window->setActive(true);
 
-	//images = new ImageLoader();
-	loadImages();
+	//loadImages();
 }
 
 Game::~Game() {
 
-	delete player;
 	delete window;
 }
 
@@ -75,7 +71,7 @@ void Game::render() {
 
 		drawBackground();
 
-		player->draw(window);
+		player.draw(window);
 		drawEntities();
 		window->display();
 	}
@@ -104,22 +100,22 @@ bool Game::handleEvents() {
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 			// left key is pressed: move our character
-			player->moveLeft(5);
+			player.moveLeft(5);
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 			// left key is pressed: move our character
-			player->moveRight(5);
+			player.moveRight(5);
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 			// left key is pressed: move our character
-			player->moveUp(5);
+			player.moveUp(5);
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 			// left key is pressed: move our character
-			player->moveDown(5);
+			player.moveDown(5);
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {

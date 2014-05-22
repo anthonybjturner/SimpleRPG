@@ -25,9 +25,8 @@ public:
 	void render();
 	void sleep(int);
 private:
-	Player* player;
+	Player player;
 	RenderWindow* window;
-	ImageLoader* images;
 	vector<Entity*> entities_list;
 
 	bool handleEvents();

@@ -7,7 +7,6 @@
 
 #include "Player.h"
 #include <iostream>
-const static int FRONT_FACING = 0;
 const static int UP_FACING = 1;
 const static int DOWN_FACING = 2;
 const static int LEFT_FACING = 3;
@@ -17,43 +16,65 @@ using namespace std;
 
 Player::Player() {
 
-	p_player_image_manager = new ImageLoader();
-	loadImages();
-	this->loadTexture(FRONT_FACING);
-}
+	if( loadImage() ){
 
-void Player::loadImages() {
-
-	sf::Image* p_image = new sf::Image();
-	p_image->loadFromFile("images/player-front.png");
-	p_player_image_manager->addImage(p_image);
-
-	p_image = new sf::Image();
-	p_image->loadFromFile("images/player-up.png");
-	p_player_image_manager->addImage(p_image);
-
-	p_image = new sf::Image();
-	p_image->loadFromFile("images/player-down.png");
-	p_player_image_manager->addImage(p_image);
-
-	p_image = new sf::Image();
-	p_image->loadFromFile("images/player-left.png");
-	p_player_image_manager->addImage(p_image);
-
-	p_image = new sf::Image();
-	p_image->loadFromFile("images/player-right.png");
-	p_player_image_manager->addImage(p_image);
-
-}
-
-void Player::loadTexture(int index) {
-
-	if (!texture.loadFromImage(*p_player_image_manager->getImage(index))) {
-		// error...
-	} else {
-
-		this->setTexture(texture);
+		this->setTexture(texture, false);
+		this->switchDirection(DOWN_FACING);
 	}
+
+}
+
+bool Player::loadImage() {
+
+	if (!texture.loadFromFile("images/player_sprite_sheet.png")) {
+			return false;
+	}
+
+	return true;
+
+}
+
+void Player::switchDirection(int index) {
+
+
+		sf::IntRect rect;
+
+		switch (index) {
+
+		case DOWN_FACING:
+
+			rect.left = 0;
+			rect.width = 36;
+			rect.top = 0;
+			rect.height = 50;
+			break;
+
+		case LEFT_FACING:
+
+			rect.left = 0;
+			rect.width = 36;
+			rect.top = 50 +5;
+			rect.height = 50;
+			break;
+
+		case RIGHT_FACING:
+
+			rect.left = 0;
+			rect.width = 36;
+			rect.top = 100 +9;
+			rect.height = 50;
+			break;
+
+		case UP_FACING:
+
+			rect.left = 0;
+			rect.width = 36;
+			rect.top = 150 +11;
+			rect.height = 50;
+			break;
+
+		}
+		this->setTextureRect(rect);
 }
 
 void Player::setLocation(double x, double y) {
@@ -64,26 +85,26 @@ void Player::setLocation(double x, double y) {
 
 void Player::moveRight(float x) {
 
-	this->loadTexture(RIGHT_FACING);
+	this->switchDirection(RIGHT_FACING);
 	this->move(x, 0);
 
 }
 
 void Player::moveLeft(float x) {
 
-	this->loadTexture(LEFT_FACING);
+	this->switchDirection(LEFT_FACING);
 	this->move(-x, 0);
 }
 
 void Player::moveUp(float y) {
 
-	this->loadTexture(UP_FACING);
+	this->switchDirection(UP_FACING);
 	this->move(0, -y);
 }
 
 void Player::moveDown(float y) {
 
-	this->loadTexture(DOWN_FACING);
+	this->switchDirection(DOWN_FACING);
 	this->move(0, y);
 }
 
@@ -95,6 +116,6 @@ void Player::draw(sf::RenderWindow* window) {
 
 Player::~Player() {
 
-	delete p_player_image_manager;
+	//delete p_player_image_manager;
 }
 
