@@ -12,6 +12,7 @@
 #include <SFML/Window/Mouse.hpp>
 #include "Player.h"
 #include "ImageLoader.h"
+#include "Entity.h"
 
 using namespace sf;
 
@@ -27,10 +28,12 @@ private:
 	Player* player;
 	RenderWindow* window;
 	ImageLoader* images;
+	vector<Entity*> entities_list;
 
 	bool handleEvents();
 	void drawBackground();
 	void loadImages();
+	void drawEntities();
 };
 
 #endif /* GAME_H_ */

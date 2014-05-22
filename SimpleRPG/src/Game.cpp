@@ -15,11 +15,11 @@ static const char* GAME_TITLE = "Simple RPG";
 Game::Game() {
 
 	player = new Player();
-	VideoMode vm(1024,768);
+	VideoMode vm(1024, 768);
 	window = new RenderWindow(vm, GAME_TITLE);
 	window->setActive(true);
 
-	images = new ImageLoader();
+	//images = new ImageLoader();
 	loadImages();
 }
 
@@ -29,20 +29,24 @@ Game::~Game() {
 	delete window;
 }
 
-void Game::loadImages(){
+void Game::loadImages() {
 
+	entities_list.push_back(new Entity());
+	entities_list.push_back(new Entity());
+	entities_list.push_back(new Entity());
+	entities_list.push_back(new Entity());
+	entities_list.push_back(new Entity());
 
+	//for(std::vector<Entity>::iterator it = entities_list.begin(); it != entities_list.end(); ++it) {
 
-
+	//}
 }
 
 void Game::start() {
 
-
 	bool finished = false;
 
 	while (!finished) {
-
 
 		update();
 		render();
@@ -55,6 +59,12 @@ void Game::start() {
 
 void Game::update() {
 
+	for(std::vector<Entity*>::iterator it = entities_list.begin(); it != entities_list.end(); ++it) {
+
+			Entity* t = *it;
+			t->moveEntity(window->getPosition());
+
+		}
 
 }
 
@@ -66,7 +76,19 @@ void Game::render() {
 		drawBackground();
 
 		player->draw(window);
+		drawEntities();
 		window->display();
+	}
+
+}
+
+void Game::drawEntities() {
+
+	for(std::vector<Entity*>::iterator it = entities_list.begin(); it != entities_list.end(); ++it) {
+
+		Entity* t = *it;
+		t->draw(window);
+
 	}
 
 }
@@ -99,6 +121,16 @@ bool Game::handleEvents() {
 			// left key is pressed: move our character
 			player->moveDown(5);
 		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+
+			int signal = MessageBoxA(NULL, "Are you sure you want to quit?",
+					"Exit SimpleRPG?", MB_OKCANCEL | 0);
+			if (signal == 1) {
+
+				return true;
+			}
+		}
 	}
 
 	return false;
@@ -111,7 +143,7 @@ void Game::sleep(int seconds) {
 
 }
 
-void Game::drawBackground(){
+void Game::drawBackground() {
 
 	sf::RectangleShape bg(sf::Vector2f(1024, 768));
 	bg.setFillColor(sf::Color(100, 250, 50));

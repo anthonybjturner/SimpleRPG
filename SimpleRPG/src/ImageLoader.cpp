@@ -6,22 +6,35 @@
  */
 
 #include "ImageLoader.h"
+#include <iostream>
 
 ImageLoader::ImageLoader() {
-	// TODO Auto-generated constructor stub
+
+
+
 
 }
 
 ImageLoader::~ImageLoader() {
 
+	//Delete all images on the Heap.
+	for(std::vector<sf::Image*>::iterator it = image_list.begin(); it != image_list.end(); ++it) {
+
+		delete *it;//Dereferencing iterator pointer to get to Image*
+
+	}
 }
 
-void ImageLoader::addImage(sf::Image& image){
 
-	image_list.push_back(image);
+/**
+ * Adds a image to the ImageLoader
+ */
+void ImageLoader::addImage(sf::Image* image){
+
+	image_list.push_back((image));
 }
 
-sf::Image& ImageLoader::getImage(int index){
+sf::Image* ImageLoader::getImage(int index){
 
 	return image_list[index];
 }

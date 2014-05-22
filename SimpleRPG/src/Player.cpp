@@ -6,43 +6,53 @@
  */
 
 #include "Player.h"
-
+#include <iostream>
 const static int FRONT_FACING = 0;
-const static int RIGHT_FACING = 1;
-const static int LEFT_FACING = 2;
-const static int UP_FACING = 3;
-const static int DOWN_FACING = 4;
+const static int UP_FACING = 1;
+const static int DOWN_FACING = 2;
+const static int LEFT_FACING = 3;
+const static int RIGHT_FACING = 4;
+
+using namespace std;
 
 Player::Player() {
 
+	p_player_image_manager = new ImageLoader();
+	loadImages();
 	this->loadTexture(FRONT_FACING);
-	images = new ImageLoader();
+}
 
-	sf::Image image;
-	image.loadFromFile("images/player-front.png");
-	sf::Image image2;
-	image2.loadFromFile("images/player-right.png");
-	sf::Image image3;
-	image3.loadFromFile("images/player-left.png");
-	sf::Image image4;
-	image4.loadFromFile("images/player-up.png");
-	sf::Image image5;
-	image5.loadFromFile("images/player-down.png");
+void Player::loadImages() {
 
-	images->addImage(image);
-	images->addImage(image2);
-	images->addImage(image3);
-	images->addImage(image4);
-	images->addImage(image5);
+	sf::Image* p_image = new sf::Image();
+	p_image->loadFromFile("images/player-front.png");
+	p_player_image_manager->addImage(p_image);
+
+	p_image = new sf::Image();
+	p_image->loadFromFile("images/player-up.png");
+	p_player_image_manager->addImage(p_image);
+
+	p_image = new sf::Image();
+	p_image->loadFromFile("images/player-down.png");
+	p_player_image_manager->addImage(p_image);
+
+	p_image = new sf::Image();
+	p_image->loadFromFile("images/player-left.png");
+	p_player_image_manager->addImage(p_image);
+
+	p_image = new sf::Image();
+	p_image->loadFromFile("images/player-right.png");
+	p_player_image_manager->addImage(p_image);
+
 }
 
 void Player::loadTexture(int index) {
 
-	if (!texture.loadFromImage(images->getImage(0))) {
+	if (!texture.loadFromImage(*p_player_image_manager->getImage(index))) {
 		// error...
 	} else {
 
-		//this->setTexture(texture);
+		this->setTexture(texture);
 	}
 }
 
@@ -85,5 +95,6 @@ void Player::draw(sf::RenderWindow* window) {
 
 Player::~Player() {
 
+	delete p_player_image_manager;
 }
 

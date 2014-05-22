@@ -16,12 +16,13 @@ public:
 	ImageLoader();
 	virtual ~ImageLoader();
 
-	void addImage(sf::Image& image);
-	sf::Image& getImage(int);
+	void addImage(sf::Image* image);
+	sf::Image* getImage(int);
 
 private:
 
-	vector<sf::Image> image_list;
+	sf::Image image;
+	vector<sf::Image*> image_list;
 };
 
 #endif /* IMAGELOADER_H_ */
