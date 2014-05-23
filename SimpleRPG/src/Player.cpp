@@ -5,7 +5,7 @@
  *      Author: Anthony
  */
 
-#include "Player.h"
+#include "../headers/Player.h"
 #include <iostream>
 const static int UP_FACING = 1;
 const static int DOWN_FACING = 2;

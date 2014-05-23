@@ -7,7 +7,6 @@
 
 #ifndef PLAYER_H_
 #define PLAYER_H_
-#include "Location.h"
 #include "ImageLoader.h"
 #include "SFML/Graphics.hpp"
 

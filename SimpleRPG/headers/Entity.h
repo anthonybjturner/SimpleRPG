@@ -24,18 +24,36 @@ public:
 		void moveUp(float);
 		void moveDown(float);
 		void draw(sf::RenderWindow*);
-		void moveEntity(sf::Vector2i);
+		void moveEntity();
 
 	private:
 
 		//member variables
 		sf::Texture texture;
-		ImageLoader* p_entity_image_manager;
 		int dx;
 		int dy;
+
+		int move_left_count;
+		int move_right_count;
+		int	move_up_count;
+		int move_down_count;
+		int animation_frame;
+		int move_right_animation_frame;
+
+		int move_left_step_total;
+		int move_right_step_total;
+		int move_up_step_total;
+		int move_down_step_total;
+
+		int move_probability;
+
 		//functions
-		void loadTexture(int index);
-		void loadImages();
+		void switchDirection(int index);
+		bool loadImage();
+		void resetSteps();
+		void initMoveSteps();
+
+
 };
 
 #endif /* ENTITY_H_ */

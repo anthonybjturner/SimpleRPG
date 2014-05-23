@@ -5,7 +5,7 @@
  *      Author: turnera1
  */
 
-#include "ImageLoader.h"
+#include "../headers/ImageLoader.h"
 #include <iostream>
 
 ImageLoader::ImageLoader() {

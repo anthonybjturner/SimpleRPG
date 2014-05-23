@@ -5,9 +5,10 @@
  *      Author: Anthony
  */
 
-#include "Game.h"
+#include "../headers/Game.h"
 #include <windows.h>
 #include <iostream>
+#define GAME_SPEED (40.0)
 
 using namespace std;
 static const char* GAME_TITLE = "Simple RPG";
@@ -16,8 +17,9 @@ Game::Game() {
 
 	window = new RenderWindow(VideoMode(1024, 768), GAME_TITLE);
 	window->setActive(true);
-
-	//loadImages();
+	fps_count = 0;
+	lastTime = 0;
+	loadImages();
 }
 
 Game::~Game() {
@@ -42,25 +44,30 @@ void Game::start() {
 
 	bool finished = false;
 
+	int startTime = timeGetTime();
 	while (!finished) {
 
-		update();
-		render();
-		finished = handleEvents();
-		sleep(15);
+		if (fpsUpdate() ){
 
+			update();
+			render();
+			finished = handleEvents();
+
+		}
 	}
+	cout << fps_count / ((timeGetTime() - startTime) / 1000) << endl;
 
 }
 
 void Game::update() {
 
-	for(std::vector<Entity*>::iterator it = entities_list.begin(); it != entities_list.end(); ++it) {
+	for (std::vector<Entity*>::iterator it = entities_list.begin();
+			it != entities_list.end(); ++it) {
 
-			Entity* t = *it;
-			t->moveEntity(window->getPosition());
+		Entity* t = *it;
+		t->moveEntity();
 
-		}
+	}
 
 }
 
@@ -80,7 +87,8 @@ void Game::render() {
 
 void Game::drawEntities() {
 
-	for(std::vector<Entity*>::iterator it = entities_list.begin(); it != entities_list.end(); ++it) {
+	for (std::vector<Entity*>::iterator it = entities_list.begin();
+			it != entities_list.end(); ++it) {
 
 		Entity* t = *it;
 		t->draw(window);
@@ -130,6 +138,19 @@ bool Game::handleEvents() {
 	}
 
 	return false;
+
+}
+
+bool Game::fpsUpdate() {
+
+	double currentTime = timeGetTime() - lastTime;
+	if (currentTime < GAME_SPEED) {
+		return false;
+	}
+
+	fps_count++;
+	lastTime = timeGetTime();
+	return true;
 
 }
 

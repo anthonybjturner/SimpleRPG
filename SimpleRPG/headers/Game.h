@@ -28,11 +28,13 @@ private:
 	Player player;
 	RenderWindow* window;
 	vector<Entity*> entities_list;
-
+	int fps_count;
+	int lastTime;
 	bool handleEvents();
 	void drawBackground();
 	void loadImages();
 	void drawEntities();
+	bool fpsUpdate();
 };
 
 #endif /* GAME_H_ */

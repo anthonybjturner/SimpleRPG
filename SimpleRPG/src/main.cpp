@@ -6,7 +6,7 @@
  */
 
 #include <windows.h>
-#include "Game.h"
+#include "../headers/Game.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR pCmdLine, int nCmdShow){
 
