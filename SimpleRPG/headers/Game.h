@@ -21,7 +21,7 @@ public:
 	Game();
 	virtual ~Game();
 	void start();
-	void update();
+	void update(int);
 	void render();
 	void sleep(int);
 private:
@@ -35,6 +35,8 @@ private:
 	void loadImages();
 	void drawEntities();
 	bool fpsUpdate();
+	bool handleKeyPresses(sf::Event&);
+	void handleMousePresses(sf::Event&);
 };
 
 #endif /* GAME_H_ */

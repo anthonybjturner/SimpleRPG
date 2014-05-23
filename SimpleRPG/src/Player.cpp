@@ -99,6 +99,13 @@ void Player::moveDown(float y) {
 	this->move(0, y);
 }
 
+void Player::moveTo(float x, float y) {
+
+	this->move(x, y);
+
+}
+
+
 void Player::draw(sf::RenderWindow* window) {
 
 	window->draw((*this));

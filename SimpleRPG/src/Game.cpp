@@ -45,27 +45,32 @@ void Game::start() {
 	bool finished = false;
 
 	int startTime = timeGetTime();
+	int endTime = 0;
+	int loopTime = 0;
 	while (!finished) {
 
-		if (fpsUpdate() ){
+		startTime = timeGetTime();
 
-			update();
-			render();
-			finished = handleEvents();
+		update(loopTime);
+		render();
+		finished = handleEvents();
 
-		}
+		endTime = timeGetTime();
+		loopTime = endTime - startTime;
+		sleep(1);
+
 	}
-	cout << fps_count / ((timeGetTime() - startTime) / 1000) << endl;
+	//cout << fps_count / ((timeGetTime() - startTime) / 1000) << endl;
 
 }
 
-void Game::update() {
+void Game::update(int delta) {
 
 	for (std::vector<Entity*>::iterator it = entities_list.begin();
 			it != entities_list.end(); ++it) {
 
 		Entity* t = *it;
-		t->moveEntity();
+		t->moveEntity(delta);
 
 	}
 
@@ -106,40 +111,75 @@ bool Game::handleEvents() {
 			return true;
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-			// left key is pressed: move our character
-			player.moveLeft(5);
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-			// left key is pressed: move our character
-			player.moveRight(5);
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			// left key is pressed: move our character
-			player.moveUp(5);
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			// left key is pressed: move our character
-			player.moveDown(5);
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-
-			int signal = MessageBoxA(NULL, "Are you sure you want to quit?",
-					"Exit SimpleRPG?", MB_OKCANCEL | 0);
-			if (signal == 1) {
-
-				return true;
-			}
-		}
+		bool quit = handleKeyPresses(event);
+		if( quit )
+			return true;
+		handleMousePresses(event);
 	}
 
 	return false;
 
 }
+
+bool Game::handleKeyPresses(sf::Event& event){
+
+
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+		// left key is pressed: move our character
+		player.moveLeft(5);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+		// left key is pressed: move our character
+		player.moveRight(5);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+		// left key is pressed: move our character
+		player.moveUp(5);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+		// left key is pressed: move our character
+		player.moveDown(5);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+
+		int signal = MessageBoxA(NULL, "Are you sure you want to quit?",
+				"Exit SimpleRPG?", MB_OKCANCEL | 0);
+		if (signal == 1) {
+
+			return true;
+		}
+	}
+
+	return false;
+
+
+}
+
+void Game::handleMousePresses(sf::Event& event){
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+		// left key is pressed: move our character
+		//player.moveLeft(5);
+		sf::Vector2i click_position = sf::Mouse::getPosition();
+		float x = click_position.x;
+		float y = click_position.y;
+
+		if( (x > 0 && x < 1024) && y > 0 && (y < 768)){
+
+			// player.moveTo(x, y);
+
+
+		}
+	}
+
+}
+
+
 
 bool Game::fpsUpdate() {
 

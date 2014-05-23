@@ -24,6 +24,7 @@ public:
 	void moveUp(float);
 	void moveDown(float);
 	void draw(sf::RenderWindow*);
+	void moveTo(float x, float y);
 
 private:
 

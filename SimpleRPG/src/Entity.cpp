@@ -16,11 +16,7 @@
 
 #include "../headers/Player.h"
 #include <iostream>
-const static int FRONT_FACING = 0;
-const static int UP_FACING = 1;
-const static int DOWN_FACING = 2;
-const static int LEFT_FACING = 3;
-const static int RIGHT_FACING = 4;
+enum DIRECTIONS {DOWN, LEFT, RIGHT, UP};
 
 using namespace std;
 
@@ -28,20 +24,21 @@ Entity::Entity() {
 
 	if (loadImage()) {
 
+		source.x = 0;
+		source.y = DOWN;
+
 		this->setTexture(texture, false);
-		this->switchDirection(DOWN_FACING);
-		dx = 3;
-		dy = 3;
+		this->switchDirection();
 
-		int x = (std::rand() % 1024);
-		int y = (std::rand() % 740);
+		dx = (rand() % 250)+80;
+		dy = (rand() % 250)+80;
 
+		int x = (		rand()% 1024 );
+		int y = (rand() % 768);
+		cout << x << endl;
 
 		initMoveSteps();
 		resetSteps();
-
-		animation_frame = 0;
-		move_right_animation_frame = 0;
 
 		this->setPosition(x, y);
 	}
@@ -66,69 +63,17 @@ bool Entity::loadImage() {
 	return true;
 }
 
-void Entity::switchDirection(int index) {
+void Entity::switchDirection() {
 
-	sf::IntRect rect;
-	rect.height = 31;
-	rect.width = 28;
+	int width = 26;
+	int height = 32;
+	int frame = source.x * width;
+	int facing = source.y*height;
+	sf::IntRect rect(frame,facing,width,height);
 
-	switch (animation_frame) {
-
-	case 0:
-		rect.left = 5;//coordinate for the first animation image
-		break;
-	case 1:
-		rect.left = 35;//coordinate for the second animation image
-		break;
-	case 2:
-		rect.left = 65;//coordinate for the third animation image
-		break;
-	case 3:
-		rect.left = 95;
-		break;
-
-	case 4:
-		rect.left = 130;
-		break;
-
-	case 5:
-		rect.left = 160;
-		break;
-
-	case 6:
-		rect.left = 195;
-		break;
-
-	case 7:
-		rect.left = 225;
-		break;
-	}
-
-	switch (index) {
-
-	case DOWN_FACING:
-
-		rect.top = 0;
-		// frame = move_down_count%4;
-		//	rect.left = rect.width * frame;
-		break;
-
-	case LEFT_FACING:
-
-		rect.top = 33;
-		break;
-
-	case RIGHT_FACING:
-
-		rect.top = 65;
-		break;
-	case UP_FACING:
-
-		rect.top = 97;
-		break;
-
-	}
 	this->setTextureRect(rect);
+//	source.x++;//After every move, we increment to the next frame (next animation)
+
 }
 
 void Entity::setLocation(double x, double y) {
@@ -137,41 +82,63 @@ void Entity::setLocation(double x, double y) {
 
 }
 
-void Entity::moveEntity() {
+void Entity::moveEntity(int delta) {
 
 	int move_chance = std::rand() % 8;
 	if (move_chance >= move_probability) {
 
-
 		//Reset animation frames
-		if (animation_frame >= 4) {
-			animation_frame = 0;
+		if (source.x * 26 >= (int)texture.getSize().x) {
+			source.x = 0;
 		}
 		sf::Vector2f position = this->getPosition();
 		//Do each move direction fully first, then move to the next possible move direction
-		if (move_left_count > 0 && position.x > 0) {
-			moveLeft(dx);
-			move_left_count--;
+		if (move_left_count > 0 ) {
 
-		} else if (move_right_count > 0 && (position.x + 30) < 1024) {
+			if( (position.x +  28) > 0){
+				moveLeft(delta);
+				move_left_count--;
+			}else
+				moveRight(delta);
 
-			moveRight(dx);
-			move_right_count--;
+		} else if (move_right_count > 0 ) {
 
-		} else if (move_up_count > 0 && (position.y + 50) > 0) {
-			moveUp(dy);
-			move_up_count--;
+			if((position.x + 28) < 1024){
+				moveRight(delta);
+				move_right_count--;
+			}else
+				moveLeft(delta);
 
-		} else if (move_down_count > 0 && position.y < 768) {
-			moveDown(dy);
-			move_down_count--;
+
+		} else if (move_up_count > 0 ) {
+
+			if( (position.y + 31) > 0){
+				moveUp(delta);
+				move_up_count--;
+			}else{
+				moveDown(delta);
+				move_down_count= move_up_count;
+				move_up_count = 0;
+			}
+
+		} else if (move_down_count > 0 ) {
+
+			if((position.y + 31)< 768){
+				moveDown(delta);
+				move_down_count--;
+			}else{
+				moveUp(delta);
+				//Since they can't move down, reassign those moves to the move_up_count
+				move_up_count = move_down_count;
+				move_down_count = 0;
+			}
+
 		} else {
 
 			//Once we made it here, they moved in all possible directions, with the max allowed steps for each.
 			//Reset there steps so they can move again
 			resetSteps();
 		}
-		animation_frame++;//After every move, we increment to the next frame (next animation)
 	}
 
 }
@@ -187,31 +154,35 @@ void Entity::resetSteps() {
 
 void Entity::moveRight(float x) {
 
-	this->switchDirection(RIGHT_FACING);
-	this->move(x, 0);
+	source.y = RIGHT;
+	this->switchDirection();
+	this->move(x*dx/1000, 0);
 
 }
 
 void Entity::moveLeft(float x) {
+	source.y = LEFT;
 
 	if (animation_frame >= 4) {
 		//move_left_animation_frame = 0;
 	}
-	this->switchDirection(LEFT_FACING);
-	this->move(-x, 0);
+	this->switchDirection();
+	this->move(-(x*dx/1000), 0);
 	//move_left_animation_frame++;
 }
 
 void Entity::moveUp(float y) {
+	source.y = UP;
 
-	this->switchDirection(UP_FACING);
-	this->move(0, -y);
+	this->switchDirection();
+	this->move(0, -(y*dy/1000));
 }
 
 void Entity::moveDown(float y) {
+	source.y = DOWN;
 
-	this->switchDirection(DOWN_FACING);
-	this->move(0, y);
+	this->switchDirection();
+	this->move(0, y*dy/1000);
 }
 
 void Entity::draw(sf::RenderWindow* window) {

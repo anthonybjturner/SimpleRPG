@@ -24,12 +24,13 @@ public:
 		void moveUp(float);
 		void moveDown(float);
 		void draw(sf::RenderWindow*);
-		void moveEntity();
+		void moveEntity(int);
 
 	private:
 
 		//member variables
 		sf::Texture texture;
+		sf::Vector2i source;
 		int dx;
 		int dy;
 
@@ -48,7 +49,7 @@ public:
 		int move_probability;
 
 		//functions
-		void switchDirection(int index);
+		void switchDirection();
 		bool loadImage();
 		void resetSteps();
 		void initMoveSteps();
