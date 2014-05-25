@@ -13,7 +13,7 @@
 
 class Entity: public sf::Sprite {
 public:
-	Entity();
+	Entity(sf::Texture&);
 	virtual ~Entity();
 
 	void setLocation(double, double);
@@ -24,7 +24,7 @@ public:
 		void moveUp(float);
 		void moveDown(float);
 		void draw(sf::RenderWindow*);
-		void moveEntity(int);
+		void moveEntity(int, int, int);
 
 	private:
 

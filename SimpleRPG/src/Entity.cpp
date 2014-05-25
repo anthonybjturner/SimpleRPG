@@ -20,28 +20,24 @@ enum DIRECTIONS {DOWN, LEFT, RIGHT, UP};
 
 using namespace std;
 
-Entity::Entity() {
+Entity::Entity(sf::Texture& texture) {
 
-	if (loadImage()) {
+	setTexture(texture);
 
 		source.x = 0;
 		source.y = DOWN;
 
-		this->setTexture(texture, false);
-		this->switchDirection();
-
 		dx = (rand() % 250)+80;
 		dy = (rand() % 250)+80;
 
-		int x = (		rand()% 1024 );
+		int x = (rand()% 1024 );
 		int y = (rand() % 768);
-		cout << x << endl;
 
+		this->switchDirection();
 		initMoveSteps();
 		resetSteps();
-
 		this->setPosition(x, y);
-	}
+
 }
 
 void Entity::initMoveSteps() {
@@ -53,14 +49,6 @@ void Entity::initMoveSteps() {
 	move_up_step_total = (std::rand() % 100) + 10;
 	move_down_step_total = (std::rand() % 100) + 10;
 
-}
-bool Entity::loadImage() {
-
-	if (!texture.loadFromFile("images/enemy_sprite_sheet.png")) {
-		return false;
-	}
-
-	return true;
 }
 
 void Entity::switchDirection() {
@@ -82,7 +70,7 @@ void Entity::setLocation(double x, double y) {
 
 }
 
-void Entity::moveEntity(int delta) {
+void Entity::moveEntity(int delta, int border_width, int border_height) {
 
 	int move_chance = std::rand() % 8;
 	if (move_chance >= move_probability) {
@@ -95,6 +83,7 @@ void Entity::moveEntity(int delta) {
 		//Do each move direction fully first, then move to the next possible move direction
 		if (move_left_count > 0 ) {
 
+			//28 is the entities width change this later.
 			if( (position.x +  28) > 0){
 				moveLeft(delta);
 				move_left_count--;

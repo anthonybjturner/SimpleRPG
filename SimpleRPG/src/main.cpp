@@ -6,24 +6,26 @@
  */
 
 #include <windows.h>
+#include <iostream>
+#include "../headers/Level.h"
+
+using namespace std;
 #include "../headers/Game.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR pCmdLine, int nCmdShow){
 
-	Game* game;
+
 	try{
 
-		game = new Game();
-		game->start();
+		Game game;
+		game.start();
 
 	}catch (const char* e){
 
-		MessageBoxA(NULL, e, "Exception Occured", MB_OK | 0);
-
+		MessageBoxA(NULL, e, "Exception Occurred", MB_OK | 0);
 	}
 
-	delete game;
+	//delete game;
 	return 0;
-
 }
 
