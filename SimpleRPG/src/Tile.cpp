@@ -6,45 +6,17 @@
  */
 
 #include "../headers/Tile.h"
-#include <iostream>
 
-Tile::Tile() {
+Tile::Tile(std::string s_type) {
 
-	//tile_image = new sf::Image();
-
-}
-
-
-Tile::Tile(string type, sf::Texture& image) {
-
-	setTexture(image);
-
+	this->type = s_type;
 }
 
 Tile::~Tile() {
 
 }
 
-void Tile::setImage(string n){
-
-
-
-
-}
-
-bool Tile::collides(sf::Rect<float>& rect){
-
-	return this->getGlobalBounds().intersects(rect);
-}
-
-string Tile::getType(){
+std::string Tile::getType(){
 
 	return type;
-}
-
-void Tile::draw(int x, int y, sf::RenderWindow* window){
-
-	setPosition(x,y);
-	window->draw(*this);
-
 }

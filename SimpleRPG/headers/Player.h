@@ -7,34 +7,29 @@
 
 #ifndef PLAYER_H_
 #define PLAYER_H_
-#include "ImageLoader.h"
-#include "SFML/Graphics.hpp"
 
-class Player :sf::Sprite{
+#include "Sprite.h"
+
+class Player : public Sprite{
 
 public:
-	Player();
-	virtual ~Player();
+
+	Player(Level*lev, sf::Texture& texture);
+	~Player();
 
 	void setLocation(double, double);
-
-	sf::Sprite& getImage();
 	void moveRight(float);
 	void moveLeft(float);
 	void moveUp(float);
 	void moveDown(float);
-	void draw(sf::RenderWindow*);
 	void moveTo(float x, float y);
 
-private:
+	void draw(sf::RenderWindow*, float x, float y);
+	void switchDirection();
 
-	//member variables
-	sf::Texture texture;
-	ImageLoader player_image_manager;
-
-	//functions
-	void switchDirection(int index);
-	bool loadImage();
+	bool moveE(float x, float y);
+	bool simulateAI(Sprite* sprite);
+	void idleUpdate(sf::Vector2f);
 
 };
 

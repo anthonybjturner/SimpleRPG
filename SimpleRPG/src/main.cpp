@@ -14,18 +14,18 @@ using namespace std;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR pCmdLine, int nCmdShow){
 
+		Game* game;
 
 	try{
-
-		Game game;
-		game.start();
+		game = new Game();
+		game->start();
 
 	}catch (const char* e){
 
 		MessageBoxA(NULL, e, "Exception Occurred", MB_OK | 0);
 	}
 
-	//delete game;
+	delete game;
 	return 0;
 }
 

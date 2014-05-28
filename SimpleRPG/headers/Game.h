@@ -7,16 +7,15 @@
 
 #ifndef GAME_H_
 #define GAME_H_
-#include <SFML/Graphics.hpp>
+#include <windows.h>
 #include <SFML/Window/Mouse.hpp>
+#include <vector>
+#include "Enemy.h"
 #include "Player.h"
-#include "ImageLoader.h"
-#include "Entity.h"
-#include "Level.h"
-#include "TileMap.h"
 #include "Camera.h"
-
-using namespace sf;
+#include "ImageLoader.h"
+#define GAME_SPEED (40.0)
+#define GAME_WINDOW_TITLE ("Simple RPG")
 
 class Game {
 public:
@@ -29,31 +28,35 @@ public:
 	void updateEntities(int);
 
 private:
-	Player player;
-	RenderWindow* window;
-	vector<Entity*> entities_list;
+
+	Player* player;
+	sf::RenderWindow* window;
 	Level* currentLevel;
-	TileMap tmap;
+	//TileMap tmap;
 
 	bool mouseDown;
 	int fps_count;
 	int lastTime;
-	int num_tiles_row;
-	int num_tiles_col;
+
 
 	sf::Texture texture;
+	sf::Texture w_texture;
+
 	sf::Sprite sprite;
 	Camera* camera;
-	ImageLoader tile_image_loader;
-	ImageLoader entities_image_loader;
 
+	ImageLoader entities_image_loader;
+	ImageLoader player_image_manager;
+
+
+	std::vector<Enemy*> entities_list;
 
 	bool handleEvents();
 	bool fpsUpdate();
 	bool handleKeyPresses(sf::Event&);
 
 	void checkCollisions();
-
+	void createEnemies();
 	void drawLevel();
 	void loadImages();
 	void drawEntities();

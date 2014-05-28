@@ -8,28 +8,25 @@
 
 #ifndef TILE_H_
 #define TILE_H_
-#include "Entity.h"
-#include <string.h>
-using namespace std;
+#include <string>
 
+#define TILE_WIDTH (32)
+#define TILE_HEIGHT (32)
 
-class Tile : sf::Sprite{
+class Tile{
+
 
 public:
-	Tile();
-	Tile(string, sf::Texture& texture);
+	Tile(std::string name);
 	~Tile();
 
-	void setImage(string n);
-	void draw(int, int, sf::RenderWindow* window);
-	static const int TILE_WIDTH = 30;
-	static const int TILE_HEIGHT = 30;
-	string getType();
-	bool collides(sf::Rect<float>& );
+
+	std::string getType();
+	//bool collides(sf::Rect<float>& );
 
 private:
 
-	string type;
+	std::string type;
 
 };
 

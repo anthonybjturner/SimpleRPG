@@ -6,67 +6,27 @@
  */
 
 #include "../headers/Player.h"
-#include <iostream>
-const static int UP_FACING = 1;
-const static int DOWN_FACING = 2;
-const static int LEFT_FACING = 3;
-const static int RIGHT_FACING = 4;
 
-using namespace std;
+Player::Player(Level*lev, sf::Texture& texture) : Sprite(lev, texture){
 
-Player::Player() {
+	setPosition(300,200);
+	this->switchDirection();
+	x = 300;
+	y = 200;
+}
 
-	if( loadImage() ){
 
-		this->setTexture(texture, false);
-		this->switchDirection(DOWN_FACING);
-	}
+bool Player::simulateAI(Sprite* sprite){
+
+return true;
+}
+void Player::idleUpdate(sf::Vector2f cords){
+
+	x = cords.x;
+	y = cords.y;
 
 }
 
-bool Player::loadImage() {
-
-	if (!texture.loadFromFile("images/player_sprite_sheet.png")) {
-			return false;
-	}
-
-	return true;
-
-}
-
-void Player::switchDirection(int index) {
-
-
-		sf::IntRect rect;
-		rect.height = 50;
-		rect.width = 36;
-		rect.left = 0;
-
-		switch (index) {
-
-		case DOWN_FACING:
-
-			rect.top = 0;
-			break;
-
-		case LEFT_FACING:
-
-			rect.top = 50 +5;
-			break;
-
-		case RIGHT_FACING:
-
-			rect.top = 100 +9;
-			break;
-
-		case UP_FACING:
-
-			rect.top = 150 +11;
-			break;
-
-		}
-		this->setTextureRect(rect);
-}
 
 void Player::setLocation(double x, double y) {
 
@@ -76,37 +36,62 @@ void Player::setLocation(double x, double y) {
 
 void Player::moveRight(float x) {
 
-	this->switchDirection(RIGHT_FACING);
-	this->move(x, 0);
+
+	source.y = RIGHT;
+	this->moveE(x, 0);
 
 }
 
 void Player::moveLeft(float x) {
 
-	this->switchDirection(LEFT_FACING);
-	this->move(-x, 0);
+	source.y = LEFT;
+	this->moveE(-x, 0);
 }
 
 void Player::moveUp(float y) {
 
-	this->switchDirection(UP_FACING);
-	this->move(0, -y);
+	source.y = UP;
+	this->moveE(0, -y);
 }
 
 void Player::moveDown(float y) {
 
-	this->switchDirection(DOWN_FACING);
-	this->move(0, y);
+	source.y = DOWN;
+	this->moveE(0, y);
 }
 
 void Player::moveTo(float x, float y) {
 
-	this->move(x, y);
 
 }
 
+bool Player::moveE(float x, float y){
 
-void Player::draw(sf::RenderWindow* window) {
+	if( source.x  >3){
+		source.x = 0;
+	}
+
+	this->move(x, y);
+	this->switchDirection();
+
+	return true;
+}
+
+void Player::switchDirection() {
+
+	int width = 34;
+	int height = 54;
+
+	int frame = source.x * width;
+	int facing = source.y*height;
+	sf::IntRect rect(frame,facing,width,height);
+
+	this->setTextureRect(rect);
+	source.x++;//After every move, we increment to the next frame (next animation)
+
+}
+
+void Player::draw(sf::RenderWindow* window, float x, float y) {
 
 	window->draw((*this));
 

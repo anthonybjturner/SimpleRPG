@@ -7,11 +7,10 @@
 
 #ifndef IMAGELOADER_H_
 #define IMAGELOADER_H_
-
 #include "SFML/Graphics.hpp"
-using namespace std;
 
 class ImageLoader {
+
 public:
 	ImageLoader();
 	virtual ~ImageLoader();
@@ -21,8 +20,8 @@ public:
 
 private:
 
-	sf::Image image;
-	vector<sf::Texture> image_list;
+	std::vector<sf::Texture> image_list;
+
 };
 
 #endif /* IMAGELOADER_H_ */
